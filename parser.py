@@ -15,43 +15,97 @@
 #  MA 02110-1301, USA.
 #
 
-def FASTAtoDict(infile):
+def FASTAtoDict(infile_name):
     #Converts the fasta file into a dict {"name":"seq"} and returns it
+    infile = open(infile_name,'r')
     Dict={}
+    warning = ""
     for lines in infile:
         if lines.startswith('>'):
             name=lines[1:].strip()
+            if name in Dict:
+                name = name + "2"
+                warning = "You have sequences with the same name in your file.\
+\nThey have been changed in order the distinguish them, but this is a very BAD \
+sign that something is wrong and you REALLY should check your file."
             Dict[name]= ''
+
         elif lines.startswith("\n") == False:
             Dict[name] += lines.strip().upper()
-    infile.close()
-    return Dict
 
-def PHYLIPtoDict(infile):
+    infile.close()
+    return Dict, warning
+
+def PHYLIPtoDict(infile_name):
     #Converts the phylip file into a dict {"name":"seq"} and returns it
+    infile = open(infile_name,'r')
     Dict={}
     infile.readline()
     interleave = 0
     order = []
+    warning = ""
     for lines in infile:
         if lines.startswith("\n"):
             interleave = 1
             count = 0
         elif interleave == 0:
             line = lines.split()
+            if line[0] in Dict:
+                line[0] = line[0] + "2"
+                warning = "You have sequences with the same name in your file.\
+\nThey have been changed in order the distinguish them, but this is a very BAD \
+sign that something is wrong and you REALLY should check your file."
             Dict[line[0]] = "".join(line[1:]).strip()
+
             order.append(line[0])
         else:
             Dict[order[count]] += lines.replace(" ","").strip()
             count += 1
+
     infile.close()
-    return Dict
+    return Dict, warning
+
+def NEXUXtoDict(infile_name):
+    infile = open(infile_name,'r')
+    ignore = 1
+    Dict = {}
+    interleave = 0
+    warning = ""
+    order = []
+
+    while ignore == 1:
+        a = infile.readline()
+        if a.strip().startswith("matrix"): ignore = 0
+
+    for lines in infile:
+        if lines.strip().startswith(";"):
+            break
+        elif lines.startswith("\n"):
+            interleave = 1
+            counter = 0
+            continue
+        elif interleave == 0:
+            line = lines.strip().split(None,1)
+            if line[0] in Dict:
+                line[0] = line[0] + "2"
+                warning = "You have sequences with the same name in your file.\
+\nThey have been changed in order the distinguish them, but this is a very BAD \
+sign that something is wrong and you REALLY should check your file."
+            Dict[line[0]] = line[1].replace(" ", "")
+            order.append(line[0])
+        else:
+            line = lines.strip().split(None,1)
+            Dict[order[counter]] += line[1].replace(" ", "")
+            counter += 1
+
+    infile.close()
+    return Dict, warning
 
 testfile = "Testfiles/Beta.phy"
-testfile = open(testfile,'r')
 
 phylip = PHYLIPtoDict(testfile)
-fasta = FASTAtoDict(open("Testfiles/Beta.fas","r"))
+fasta = FASTAtoDict("Testfiles/Beta.fas")
+nexus = NEXUXtoDict("Testfiles/Beta.nex")
 
-if phylip == fasta:
+if fasta == nexus:
     print("OK!")
