@@ -101,11 +101,11 @@ sign that something is wrong and you REALLY should check your file."
     infile.close()
     return Dict, warning
 
-testfile = "Testfiles/Beta.phy"
+#testfile = "Testfiles/Beta.phy"
 
-phylip = PHYLIPtoDict(testfile)
-fasta = FASTAtoDict("Testfiles/Beta.fas")
-nexus = NEXUXtoDict("Testfiles/Beta.nex")
+#phylip = PHYLIPtoDict(testfile)
+#fasta = FASTAtoDict("Testfiles/Beta.fas")
+#nexus = NEXUXtoDict("Testfiles/Beta.nex")
 
-if fasta == nexus:
-    print("OK!")
+#if fasta == nexus:
+    #print("OK!")
