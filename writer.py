@@ -15,17 +15,17 @@
 #  MA 02110-1301, USA.
 #
 def FASTAwriter(Dict,outfile_name):
-	#Writes down the dict as a fasta file
-	outfile = open(outfile_name,'w')
-	newseq = ""
-	for name,seq in Dict.items():
-		if len(seq) > 60:
-			for i in range(60,len(seq),60):
-				newseq += seq[i-60:i+1] + "\n"
-		else:
-			newseq = seq
-		outfile.write(">" + name + "\n")
-		if newseq.endswith("\n"):
-			outfile.write(newseq)
-		else:
-			outfile.write(newseq + "\n")
+    #Writes down the dict as a fasta file
+    outfile = open(outfile_name,'w')
+    for name,seq in Dict.items():
+        newseq = ""
+        count = 0
+        for i in seq:
+            newseq += i
+            count += 1
+            if count == 60:
+                newseq += "\n"
+                count = 0
+        newseq = newseq.rstrip()
+        outfile.write(">" + name + "\n")
+        outfile.write(newseq + "\n")
