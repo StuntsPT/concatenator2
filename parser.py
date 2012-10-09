@@ -34,12 +34,8 @@ sign that something is wrong and you REALLY should check your file."
         elif lines.startswith("\n") == False:
             Dict[name] += lines.strip().upper()
 
-    for i in Dict.values():
-        if length != 0 and len(i) != length:
-            warning = "Not all of your sequences have the same length.\nYou \
-really should look into this as it is a VERY BAD sign that something is wrong."
-        length = len(i)
-
+    if warning != "":
+        warning = SeqMeasure(Dict)
 
     infile.close()
     return Dict, warning
@@ -69,6 +65,9 @@ sign that something is wrong and you REALLY should check your file."
         else:
             Dict[order[count]] += lines.replace(" ","").strip()
             count += 1
+
+    if warning != "":
+        warning = SeqMeasure(Dict)
 
     infile.close()
     return Dict, warning
@@ -106,8 +105,21 @@ sign that something is wrong and you REALLY should check your file."
             Dict[order[counter]] += line[1].replace(" ", "")
             counter += 1
 
+    if warning != "":
+        warning = SeqMeasure(Dict)
+
     infile.close()
     return Dict, warning
+
+def SeqMeasure(Dict):
+    warning = ""
+    for i in Dict.values():
+        if length != 0 and len(i) != length:
+            warning = "Not all of your sequences have the same length.\nYou \
+really should look into this as it is a VERY BAD sign that something is wrong \
+if you are using these sequences for further analyses."
+        length = len(i)
+    return warning
 
 #testfile = "Testfiles/Beta.phy"
 
