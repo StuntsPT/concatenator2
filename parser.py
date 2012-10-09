@@ -20,18 +20,26 @@ def FASTAtoDict(infile_name):
     infile = open(infile_name,'r')
     Dict={}
     warning = ""
+    length = 0
     for lines in infile:
         if lines.startswith('>'):
             name=lines[1:].strip()
             if name in Dict:
                 name = name + "2"
                 warning = "You have sequences with the same name in your file.\
-\nThey have been changed in order the distinguish them, but this is a very BAD \
+\nThey have been changed in order the distinguish them, but this is a VERY BAD \
 sign that something is wrong and you REALLY should check your file."
             Dict[name]= ''
 
         elif lines.startswith("\n") == False:
             Dict[name] += lines.strip().upper()
+
+    for i in Dict.values():
+        if length != 0 and len(i) != length:
+            warning = "Not all of your sequences have the same length.\nYou \
+really should look into this as it is a VERY BAD sign that something is wrong."
+        length = len(i)
+
 
     infile.close()
     return Dict, warning

@@ -14,7 +14,7 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 #
-def FASTAwriter(Dict,outfile_name):
+def FASTAwriter(Dict, outfile_name):
     #Writes down the dict as a fasta file
     outfile = open(outfile_name,'w')
     for name,seq in Dict.items():
@@ -29,3 +29,7 @@ def FASTAwriter(Dict,outfile_name):
         newseq = newseq.rstrip()
         outfile.write(">" + name + "\n")
         outfile.write(newseq + "\n")
+
+def PhylipWriter(Dict, outfile_name):
+	#Writes down the dict as a phylip file
+	""
