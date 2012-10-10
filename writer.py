@@ -33,6 +33,9 @@ def FASTAwriter(Dict, outfile_name):
 def PhylipWriter(Dict, outfile_name):
 	#Writes down the dict as a phylip file
 	outfile.open(outfile_name,'w')
+	maxlen = max(map(len, Dict.keys()))
 	outfile.write(" " + len(Dict) + " " + len(Dict[list(Dict.keys())[0]]) + "\n")
-
+	for name,seq in Disct.items():
+		outfile.write(name)
+		outfile.write(" " * 2 + (len(name))
 	outfile.close()
