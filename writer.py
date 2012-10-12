@@ -14,28 +14,48 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 #
-def FASTAwriter(Dict, outfile_name):
-    #Writes down the dict as a fasta file
-    outfile = open(outfile_name,'w')
-    for name,seq in Dict.items():
-        newseq = ""
-        count = 0
-        for i in seq:
-            newseq += i
-            count += 1
-            if count == 60:
-                newseq += "\n"
-                count = 0
-        newseq = newseq.rstrip()
-        outfile.write(">" + name + "\n")
-        outfile.write(newseq + "\n")
+def FASTAWriter(Dict, outfile_name):
+	#Writes down the dict as a fasta file
+	outfile = open(outfile_name,'w')
+	for name,seq in Dict.items():
+		newseq = ""
+		count = 0
+		for i in seq:
+			newseq += i
+			count += 1
+			if count == 60:
+				newseq += "\n"
+				count = 0
+		newseq = newseq.rstrip()
+		outfile.write(">" + name + "\n")
+		outfile.write(newseq + "\n")
+	outfile.close()
 
 def PhylipWriter(Dict, outfile_name):
 	#Writes down the dict as a phylip file
-	outfile.open(outfile_name,'w')
+	outfile = open(outfile_name,'w')
 	maxlen = max(map(len, Dict.keys()))
-	outfile.write(" " + len(Dict) + " " + len(Dict[list(Dict.keys())[0]]) + "\n")
-	for name,seq in Disct.items():
+	outfile.write(" " + str(len(Dict)) + " " + str(len(Dict[list(Dict.keys())[0]])) + "\n")
+	for name,seq in Dict.items():
 		outfile.write(name)
-		outfile.write(" " * 2 + (len(name))
+		outfile.write(" " * (2 + (maxlen - len(name))))
+		outfile.write(seq + "\n")
 	outfile.close()
+
+def NexusWriter(Dict, outfile_name, datatype="DNA", missingchar="N", gapchar="-"):
+	#Writes down the dict as a nexus file
+	#The interleave format is now deprecated, so all nexus files are now "leave"
+	outfile = open(outfile_name,'w')
+	outfile.write("#Nexus\n")
+	outfile.write("[" + outfile_name + "] -- data title\n\n")
+	outfile.write("Begin data;\n")
+	outfile.write(" dimensions ntax=" + str(len(Dict)) + " nchar=" + str(len(Dict[list(Dict.keys())[0]])) + ";\n")
+	outfile.write(" format datatype=" + datatype + " interleave=no missing=" + missingchar + " gap=" + gapchar + ";\n")
+	outfile.write("  matrix\n")
+	for name,seq in Dict.items():
+		outfile.write(" ")
+		if len(name) < 8: outfile.write(" " * (8 - len(name)) + name)
+		else: outfile.write(name[:8])
+		outfile.write("  ")
+		outfile.write(seq + "\n")
+	outfile.write(";\n  end;")
