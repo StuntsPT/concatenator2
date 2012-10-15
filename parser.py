@@ -121,11 +121,11 @@ if you are using these sequences for further analyses."
         length = len(i)
     return warning
 
-#testfile = "Testfiles/Beta.phy"
+#testfile = "Testfiles/testdata.phy"
 
 #phylip = PHYLIPtoDict(testfile)
-#fasta = FASTAtoDict("Testfiles/Beta.fas")
-#nexus = NEXUXtoDict("Testfiles/Beta.nex")
+#fasta = FASTAtoDict("Testfiles/testdata.fas")
+#nexus = NEXUXtoDict("Testfiles/testdata.nex")
 
 #if fasta == nexus:
     #print("OK!")

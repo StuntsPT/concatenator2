@@ -18,5 +18,5 @@ import parser
 import detector
 import writer
 
-d = parser.FASTAtoDict("Testfiles/Beta.fas")
+d = parser.FASTAtoDict("Testfiles/testdata.fas")
 writer.NexusWriter(d[0],"Testfiles/aa.txt")
