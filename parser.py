@@ -120,12 +120,3 @@ really should look into this as it is a VERY BAD sign that something is wrong \
 if you are using these sequences for further analyses."
         length = len(i)
     return warning
-
-#testfile = "Testfiles/testdata.phy"
-
-#phylip = PHYLIPtoDict(testfile)
-#fasta = FASTAtoDict("Testfiles/testdata.fas")
-#nexus = NEXUXtoDict("Testfiles/testdata.nex")
-
-#if fasta == nexus:
-    #print("OK!")
