@@ -16,26 +16,28 @@
 #
 
 def filetype(infile_name):
-	#Detects the type of file to be parsed
-	autofind = "unknown"
-	infile = open(infile_name,'r')
-	header = infile.readline()
-	phy_header = header.strip().split()
-	if header.upper().startswith("#NEXUS"):
-		autofind = "nexus"
-		return autofind
-	elif len(phy_header) == 2 and phy_header[0].isdigit():
-		autofind = "phylip"
-		return autofind
-	elif header.startswith(">"):
-		autofind = "fasta"
-		return autofind
-	elif header.startswith("\n"):
-		header = infile.readline()
-		if header.startswith(">"):
-			autofind = "fasta"
-			return autofind
+    #Detects the type of file to be parsed
+    autofind = "unknown"
+    infile = open(infile_name,'r')
+    header = infile.readline()
+    while header.startswith("\n"):
+        header = infile.readline()
+    phy_header = header.strip().split()
+    if header.upper().startswith("#NEXUS"):
+        autofind = "nexus"
+        return autofind
+    elif len(phy_header) == 2 and phy_header[0].isdigit():
+        autofind = "phylip"
+        return autofind
+    elif header.startswith(">"):
+        autofind = "fasta"
+        return autofind
+    elif header.startswith("\n"):
+        header = infile.readline()
+        if header.startswith(">"):
+            autofind = "fasta"
+            return autofind
 
-	infile.close()
-	return autofind
+    infile.close()
+    return autofind
 
