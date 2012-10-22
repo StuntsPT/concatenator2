@@ -15,10 +15,12 @@
 #  MA 02110-1301, USA.
 #
 
+from collections import OrderedDict
+
 def FASTAtoDict(infile_name):
     #Converts the fasta file into a dict {"name":"seq"} and returns it
     infile = open(infile_name,'r')
-    Dict={}
+    Dict = OrderedDict()
     warning = ""
     length = 0
     for lines in infile:
@@ -43,7 +45,7 @@ sign that something is wrong and you REALLY should check your file."
 def PHYLIPtoDict(infile_name):
     #Converts the phylip file into a dict {"name":"seq"} and returns it
     infile = open(infile_name,'r')
-    Dict={}
+    Dict = OrderedDict()
     infile.readline()
     interleave = 0
     order = []
@@ -75,7 +77,7 @@ sign that something is wrong and you REALLY should check your file."
 def NEXUXtoDict(infile_name):
     infile = open(infile_name,'r')
     ignore = 1
-    Dict = {}
+    Dict = OrderedDict()
     interleave = 0
     warning = ""
     order = []
